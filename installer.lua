@@ -1,5 +1,5 @@
 --/ Redhack Installer / Reactified /--
-local repo = "http://raw.github.com/Reactified/redhack/master/"
+local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
 local themes = {
     Blue = "x-server-blue.sys",
     Red = "x-server-red.sys",
@@ -7,11 +7,18 @@ local themes = {
 local files = {
     {"startup.lua","startup.lua"},
     {"config.sys","sys/config.sys"},
+    {"edit.lua","bin/edit.lua"},
+}
+local folders = {
+    "log",
+    "home",
+    "bin/modules",
+    "sys/apis",
 }
 
 --/ Function /--
 local w,h = term.getSize()
-local accent = colors.blue
+local accent = colors.red
 if not term.isColor() then
     accent = colors.black
 end
@@ -39,7 +46,11 @@ function prompt(name,options,question)
         for i,v in pairs(options) do
             term.setCursorPos(2,4+i)
             if cursor == i then
-                term.setBackgroundColor(colors.lightGray)
+                if colors[string.lower(v)] then
+                    term.setBackgroundColor(colors[string.lower(v)])
+                else
+                    term.setBackgroundColor(colors.black)
+                end
                 term.setTextColor(colors.white)
             else
                 term.setBackgroundColor(colors.gray)
@@ -69,6 +80,7 @@ local function getfile(gitfile,target)
         f.writeLine(data)
         f.close()
         h.close()
+        return true
     else
         return false
     end
@@ -91,7 +103,7 @@ if version == 0 then
 elseif version >= 1 then
     write("Release v"..tostring(version))
 else
-    write("Alpha v0"..tostring(version))
+    write("Alpha v"..tostring(version))
 end
 if fs.exists("/startup") or fs.exists("/startup.lua") then
     term.setCursorPos(2,9)
@@ -112,6 +124,28 @@ if key ~= keys.y then
     write("Installation cancelled.")
     return
 end
+if version == 0 then
+    drawTab("Warning")
+    term.setCursorPos(2,3)
+    write("The installer was unable to reach")
+    term.setCursorPos(2,4)
+    write("the OS repository to gather version")
+    term.setCursorPos(2,5)
+    write("data, continuing with the install may")
+    term.setCursorPos(2,6)
+    write("leave you with a damaged system!")
+    term.setCursorPos(2,8)
+    write("Continue anyway? y/n")
+    local evt,key = os.pullEvent("key")
+    if key ~= keys.y then
+        term.setBackgroundColor(colors.black)
+        term.clear()
+        term.setCursorPos(1,1)
+        term.setTextColor(colors.lightGray)
+        write("Installation cancelled.")
+        return
+    end
+end
 local options = {}
 for i,v in pairs(themes) do
     options[#options+1] = i
@@ -122,3 +156,45 @@ term.setCursorPos(2,2)
 write(theme)
 files[#files+1] = {themes[theme],"sys/x-server.sys"}
 drawTab("Install")
+term.setCursorPos(1,3)
+for i,v in pairs(folders) do
+    fs.makeDir(v)
+end
+for i,v in pairs(files) do
+    term.setTextColor(accent)
+    write(" "..v[1])
+    term.setTextColor(colors.lightGray)
+    write(" -> ")
+    term.setTextColor(colors.white)
+    write(v[2])
+    term.setTextColor(colors.lightGray)
+    write(".. ")
+    local success = getfile(v[1],v[2])
+    if not success then
+        if term.isColor() then
+            term.setTextColor(colors.red)
+        else
+            term.setTextColor(colors.lightGray)
+        end
+        print("Failed")
+    else
+        if term.isColor() then
+            term.setTextColor(colors.lime)
+        else
+            term.setTextColor(colors.lightGray)
+        end
+        print("Done")
+    end
+    sleep(0.1)
+end
+drawTab("Done")
+term.setCursorPos(2,3)
+write("Thank you for installing")
+term.setCursorPos(2,4)
+write("Redhack OS!")
+for i=5,0,-1 do
+    term.setCursorPos(2,6)
+    write("Rebooting in "..tostring(i).." seconds.")
+    sleep(1)
+end
+os.reboot()
