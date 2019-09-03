@@ -151,8 +151,8 @@ for i,v in pairs(themes) do
     options[#options+1] = i
 end
 local theme = options[prompt("Theme",options,"Select a theme")]
-if colors[string.lower(v)] and term.isColor() then
-    accent = colors[string.lower(v)]
+if colors[string.lower(theme)] and term.isColor() then
+    accent = colors[string.lower(theme)]
 end
 files[#files+1] = {themes[theme],"sys/x-server.sys"}
 drawTab("Install")
