@@ -67,12 +67,19 @@ local function getfile(gitfile,target)
         f = fs.open(target,"w")
         f.writeLine(data)
         f.close()
+        h.close()
     else
         return false
     end
 end
 
 --/ Routine /--
+local h = http.get(repo.."version.dat")
+local version = -1
+if h then
+    version = tonumber(h.readLine())
+    h.close()
+end
 drawTab("Init")
 term.setCursorPos(2,3)
 write("Welcome to Redhack")
@@ -106,3 +113,5 @@ local theme = options[prompt("Theme",options,"Select a theme")]
 term.clear()
 term.setCursorPos(2,2)
 write(theme)
+files[#files+1] = {themes[theme],"sys/x-server.sys"}
+drawTab("Install")
