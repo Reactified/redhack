@@ -33,16 +33,16 @@ function prompt(name,options,question)
     local cursor = 1
     while true do
         drawTab(name)
-        term.setCursorPos(2,2)
+        term.setCursorPos(2,3)
         write(question)
         for i,v in pairs(options) do
-            term.setCursorPos(2,4+i)
+            term.setCursorPos(2,5+i)
             if cursor == i then
                 term.setBackgroundColor(colors.lightGray)
-                term.setTextColor(colors.black)
+                term.setTextColor(colors.white)
             else
-                term.setBackgroundColor(colors.white)
-                term.setTextColor(colors.gray)
+                term.setBackgroundColor(colors.gray)
+                term.setTextColor(colors.lightGray)
             end
             write(" "..v.." ")   
         end
