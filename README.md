@@ -21,7 +21,7 @@ return {
     height = 3,
 }
 ```
-Modules can use the following events to react to input
-``on_click | window, x position, y position, click type``
-``on_modem | window, channel, reply, message``
-``on_net   | window, from IP, data``
+Modules can use the following events to react to input<br>
+``on_click | window, x position, y position, click type``<br>
+``on_modem | window, channel, reply, message``<br>
+``on_net   | window, from IP, data``<br>
