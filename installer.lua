@@ -16,7 +16,7 @@ local folders = {
     "sys/apis",
 }
 
---/ Function /--
+--/ Functions /--
 local w,h = term.getSize()
 local accent = colors.red
 if not term.isColor() then
@@ -48,7 +48,6 @@ function prompt(name,options,question)
             if cursor == i then
                 if colors[string.lower(v)] and term.isColor() then
                     term.setBackgroundColor(colors[string.lower(v)])
-                    accent = colors[string.lower(v)]
                 else
                     term.setBackgroundColor(colors.black)
                 end
@@ -152,9 +151,9 @@ for i,v in pairs(themes) do
     options[#options+1] = i
 end
 local theme = options[prompt("Theme",options,"Select a theme")]
-term.clear()
-term.setCursorPos(2,2)
-write(theme)
+if colors[string.lower(v)] and term.isColor() then
+    accent = colors[string.lower(v)]
+end
 files[#files+1] = {themes[theme],"sys/x-server.sys"}
 drawTab("Install")
 term.setCursorPos(1,3)
