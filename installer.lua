@@ -77,7 +77,7 @@ end
 local h = http.get(repo.."version.dat")
 local version = -1
 if h then
-    version = tonumber(h.readLine())
+    version = tonumber(h.readAll())
     h.close()
 end
 drawTab("Init")
@@ -85,7 +85,11 @@ term.setCursorPos(2,3)
 write("Welcome to Redhack")
 term.setCursorPos(2,4)
 term.setTextColor(colors.lightGray)
-write("Alpha v0.5")
+if version >= 1 then
+    write("Release v"..tostring(version))
+else
+    write("Alpha v0"..tostring(version))
+end
 if fs.exists("/startup") or fs.exists("/startup.lua") then
     term.setCursorPos(2,9)
     if term.isColor() then term.setTextColor(colors.red) end
