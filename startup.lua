@@ -1,4 +1,4 @@
----/ REDHACK OS (c) Reactified 2018 /--
+---/ REDHACK OS (c) Reactified 2019 /--
 --/ PLEASE DO NOT MODIFY THIS FILE /---
 
 --/ SYSTEM VARIABLES /--
