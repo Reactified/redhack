@@ -37,7 +37,7 @@ function prompt(name,options,question)
         term.setCursorPos(2,3)
         write(question)
         for i,v in pairs(options) do
-            term.setCursorPos(2,5+i)
+            term.setCursorPos(2,4+i)
             if cursor == i then
                 term.setBackgroundColor(colors.lightGray)
                 term.setTextColor(colors.white)
