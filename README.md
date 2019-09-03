@@ -1,4 +1,5 @@
 # redhack
-ComputerCraft implementation of Hacknet OS
+Advanced computercraft terminal environment
 
-No public installer is available yet.
+# install
+pastebin run Wecry95Y
