@@ -74,21 +74,22 @@ end
 
 --/ Routine /--
 drawTab("Init")
-term.setCursorPos(2,2)
-write("Welcome to Redhack")
 term.setCursorPos(2,3)
+write("Welcome to Redhack")
+term.setCursorPos(2,4)
 term.setTextColor(colors.lightGray)
 write("Alpha v0.5")
 if fs.exists("/startup") or fs.exists("/startup.lua") then
+    term.setCursorPos(2,8)
     if term.isColor() then term.setTextColor(colors.red) end
     write("! Current startup will be lost")
 end
-term.setCursorPos(2,7)
+term.setCursorPos(2,5)
 term.setTextColor(colors.white)
 write("Would you like to install")
-term.setCursorPos(2,8)
+term.setCursorPos(2,6)
 write("Redhack OS? y/n")
-local key = os.pullEvent("key")
+local evt,key = os.pullEvent("key")
 if key ~= keys.y then
     term.setBackgroundColor(colors.black)
     term.clear()
