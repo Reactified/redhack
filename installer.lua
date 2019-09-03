@@ -76,9 +76,9 @@ end
 
 --/ Routine /--
 local h = http.get(repo.."version.dat")
-local version = -1
+local version = 0
 if h then
-    version = tonumber(h.readAll())
+    version = tonumber(h.readAll()) or 0
     h.close()
 end
 drawTab("Init")
