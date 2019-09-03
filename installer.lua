@@ -187,6 +187,13 @@ for i,v in pairs(files) do
     end
     sleep(0.1)
 end
+local timer = os.startTimer(3)
+while true do
+    e,k = os.pullEvent()
+    if e == "key" or e == "timer" and k == timer then
+        break
+    end
+end
 drawTab("Done")
 term.setCursorPos(2,3)
 write("Thank you for installing")
