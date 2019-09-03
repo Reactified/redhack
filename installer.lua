@@ -86,7 +86,9 @@ term.setCursorPos(2,3)
 write("Welcome to Redhack")
 term.setCursorPos(2,4)
 term.setTextColor(colors.lightGray)
-if version >= 1 then
+if version == 0 then
+    write("! Repo disconnected")
+elseif version >= 1 then
     write("Release v"..tostring(version))
 else
     write("Alpha v0"..tostring(version))
