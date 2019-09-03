@@ -46,8 +46,9 @@ function prompt(name,options,question)
         for i,v in pairs(options) do
             term.setCursorPos(2,4+i)
             if cursor == i then
-                if colors[string.lower(v)] then
+                if colors[string.lower(v)] and term.isColor() then
                     term.setBackgroundColor(colors[string.lower(v)])
+                    accent = colors[string.lower(v)]
                 else
                     term.setBackgroundColor(colors.black)
                 end
