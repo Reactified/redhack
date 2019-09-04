@@ -2,6 +2,8 @@
 --/ PLEASE DO NOT MODIFY THIS FILE /---
 
 --/ SYSTEM VARIABLES /--
+local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
+local version = 0.5
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
@@ -14,6 +16,45 @@ term.setTextColor(colors.white)
 term.clear()
 term.setCursorPos(1,1)
 print("SYS INIT")
+local h = http.get(repo.."version.dat")
+if h then
+    local newVer = tonumber(h.readAll())
+    h.close()
+    if newVer then
+        if newVer > verison then
+            printError("SYSTEM UPDATE REQUIRED")
+            print("SYSTEM WILL NOW UPDATE")
+            print("CURRENT VERSION WILL BE")
+            print("BACKED UP AS '.startup.old'")
+            if fs.exists("/.startup.old") then
+                fs.delete("/.startup.old")
+            end
+            sleep(1)
+            fs.move(shell.getRunningProgram(),"/.startup.old")
+            h = http.get(repo.."startup.lua")
+            if not h then
+                printError("UPDATE FAILED!")
+                print("SYSTEM RESTORING...")
+                fs.move("/.startup.old",shell.getRunningProgram())
+                sleep(1)
+                print("RESTORE COMPLETE, BOOTING.")
+            else
+                f = fs.open(shell.getRunningProgram(),"w")
+                f.writeLine(h.readAll())
+                f.close()
+                h.close()
+                print("UPDATE COMPLETE")
+                for i=3,0,-1 do
+                    print("REBOOTING IN "..tostring(i))
+                    sleep(1)
+                end
+                os.reboot()
+            end
+        end
+    end
+else
+    print("OFFLINE MODE")
+end
 sleep(0.1)
 if fs.exists("/sys/config.sys") then
     write("LOADING CONFIG")
@@ -47,7 +88,11 @@ local sysHash = cfg.sec.pass or tostring(math.random(1,99999))
 if sha256 then
     sysHash = string.sub(sha256.sha256(sysHash),1,cfg.sec.level)
     function _G.net.verifyHash(pass,hash)
-        local solveHash = string.sub(sha256.sha256(pass),1,cfg.sec.level)
+        if hash then
+            local solveHash = string.sub(sha256.sha256(pass),1,#hash)
+        else
+            local solveHash = string.sub(sha256.sha256(pass),1,cfg.sec.level)
+        end
         if solveHash == (hash or sysHash) then
             return true,solveHash
         else
@@ -282,7 +327,6 @@ sleep(0.1)
 write(".")
 sleep(0.1)
 write(".")
-sleep(0.5)
 
 --/ UI ROUTINE /--
 ui.term = window.create(term.current(),ui.windows.terminal.xPos,ui.windows.terminal.yPos,ui.windows.terminal.width,ui.windows.terminal.height,true)
