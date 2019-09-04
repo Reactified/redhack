@@ -3,7 +3,7 @@
 
 --/ SYSTEM VARIABLES /--
 local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
-local version = 0.62
+local version = 0.65
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
@@ -64,7 +64,7 @@ if fs.exists("/sys/config.sys") then
     f.close()
     sleep(0.1)
     write(".")
-    cfg = textutils.unserialise(cfg)
+    _G.cfg = textutils.unserialise(cfg)
     sleep(0.1)
     print(".")
 else
