@@ -20,6 +20,7 @@ local h = http.get(repo.."version.dat")
 if h then
     local newVer = tonumber(h.readAll())
     h.close()
+    h = nil
     if newVer then
         if newVer > version then
             printError("SYSTEM UPDATE REQUIRED")
