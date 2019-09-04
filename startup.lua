@@ -86,6 +86,7 @@ elseif cfg.sec.level > 4 then
     cfg.sec.level = 4
 end
 local sysHash = cfg.sec.pass or tostring(math.random(1,99999))
+local origSysHash = sysHash
 if sha256 then
     sysHash = string.sub(sha256.sha256(sysHash),1,cfg.sec.level)
     function _G.net.verifyHash(pass,hash)
@@ -328,9 +329,9 @@ print("SYSTEM OK")
 sleep(0.1)
 write("VER "..tostring(version))
 if net and not cfg.sec.ghost then
-    write(" | HASH: "..tostring(sysHash))
+    write(" | KEY: "..tostring(origSysHash))
 end
-sleep(0.6)
+sleep(0.8)
 
 --/ UI ROUTINE /--
 ui.term = window.create(term.current(),ui.windows.terminal.xPos,ui.windows.terminal.yPos,ui.windows.terminal.width,ui.windows.terminal.height,true)
