@@ -7,6 +7,10 @@ if not net.ping then
     printError("System not online, reboot with modem.")
     return
 end
+if cfg.sec.ghost then
+    printError("Can't hack while in ghost mode.")
+    return
+end
 local args = {...}
 if not args[1] then
     printError("Usage: connect <IP>")
