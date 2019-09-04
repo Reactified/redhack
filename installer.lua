@@ -8,12 +8,12 @@ local files = {
     {"startup.lua","startup.lua"},
     {"config.sys","sys/config.sys"},
     {"edit.lua","bin/edit.lua"},
+    {"sha256.lua","sys/apis/sha256.lua"},
 }
 local folders = {
     "log",
     "home",
     "bin/modules",
-    "sys/apis",
 }
 
 --/ Functions /--
