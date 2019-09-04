@@ -26,9 +26,34 @@ if fs.exists("/sys/config.sys") then
     sleep(0.1)
     print(".")
 else
-    printError("MISSING 'config.sys' SYSTEM FILE")
+    printError("MISSING 'CONFIG.SYS' SYSTEM FILE")
     printError("RESTORE VALID CONFIG TO CONTINUE")
     return
+end
+if fs.exists("/sys/apis/sha256.lua") then
+    os.loadAPI("/sys/apis/sha256.lua")
+else
+    printError("MISSING 'SHA256' API")
+    printError("SYSTEM WILL RUN IN GHOST MODE")
+    cfg.sec.ghost = true
+    sleep(2)
+end
+if cfg.sec.level < 1 then
+    cfg.sec.level = 1
+elseif cfg.sec.level > 4 then
+    cfg.sec.level = 4
+end
+local sysHash = cfg.sec.pass or tostring(math.random(1,99999))
+if sha256 then
+    sysHash = string.sub(sha256.sha256(sysHash),1,cfg.sec.level)
+    function _G.net.verifyHash(pass,hash)
+        local solveHash = string.sub(sha256.sha256(pass),1,cfg.sec.level)
+        if solveHash == (hash or sysHash) then
+            return true,solveHash
+        else
+            return false,solveHash
+        end
+    end
 end
 local sysLabel = os.getComputerLabel() or cfg.sys.name or "Computer #"..tostring(os.getComputerID())
 sleep(0.1)
@@ -124,11 +149,65 @@ else
                     packet = "pong",
                     label = sysLabel,
                 })
-            else
-                for i,v in pairs(modules) do
-                    if v.on_net then
-                        v.on_net(v.window,ip,data)
+            elseif data.packet == "probe" then
+                if cfg.sec.ghost then
+                    net.send(ip,{
+                        packet = "probe-response",
+                    })
+                else
+                    net.send(ip,{
+                        packet = "probe-response",
+                        hash = sysHash,
+                    })
+                end
+            elseif data.packet == "solve" then
+                if cfg.sec.ghost or not data.solve then
+                    net.send(ip,{
+                        packet = "solve-response",
+                    })
+                else
+                    data.solve = tostring(data.solve)
+                    if type(data.solve) == "string" then
+                        net.send(ip,{
+                            packet = "solve-response",
+                            verified = net.verifyHash(data.solve),
+                        })
+                    else
+                        net.send(ip,{
+                            packet = "solve-response",
+                        })
                     end
+                end
+            elseif data.packet == "remote" then
+                if cfg.sec.ghost or not data.solve then
+                    net.send(ip,{
+                        packet = "remote-response",
+                    })
+                else
+                    data.solve = tostring(data.solve)
+                    if type(data.solve) == "string" then
+                        if net.verifyHash(data.solve) then
+                            local code = data.code or ""
+                            local ok,err = pcall(loadstring(code))
+                            net.send(ip,{
+                                packet = "remote-response",
+                                result = err,
+                            })
+                        else
+                            net.send(ip,{
+                                packet = "remote-response",
+                            })
+                        end
+                    else
+                        net.send(ip,{
+                            packet = "remote-response",
+                        })
+                    end
+                end
+            end
+            for i,v in pairs(modules) do
+                if v.on_net then
+                    v.on_net(v.window,ip,data)
                 end
             end
         end
@@ -193,7 +272,7 @@ if fs.exists("/sys/x-server.sys") then
         sleep(1)
     end
 else
-    printError("MISSING 'x-server.sys' SYSTEM FILE")
+    printError("MISSING 'X-SERVER.SYS' SYSTEM FILE")
     printError("RESTORE VALID X-SERVER TO CONTINUE")
     return
 end
@@ -438,6 +517,7 @@ function mainRoutine()
 end
 while true do
     local ok,err = pcall(mainRoutine)
+    term.setCursorBlink(false)
     if err == "Terminated" then
         term.setBackgroundColor(colors.black)
         term.clear()
