@@ -307,6 +307,7 @@ else
     printError("MISSING BIN FOLDER")
 end
 sleep(0.1)
+local w,h = term.native().getSize()
 if fs.exists("/sys/x-server.sys") then
     write("LOADING X-SERVER")
     _G.ui = dofile("/sys/x-server.sys")
