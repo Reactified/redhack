@@ -123,8 +123,14 @@ end
 if not modem then
     printError("NO MODEM DETECTED")
 else
+    net.ip = "192.168.0."..tostring(os.getComputerID())
+    if cfg.net.customIP then
+        if type(cfg.net.customIP == "string") then
+            net.ip = cfg.net.customIP
+        end
+    end
     write("INIT NETWORKING")
-    net.list = {[ip] = "Offline"}
+    net.list = {[net.ip] = "Offline"}
     if fs.exists("/sys/network.txt") then
         f = fs.open("/sys/network.txt","r")
         line = true
@@ -135,12 +141,6 @@ else
             end
         end
         f.close()
-    end
-    net.ip = "192.168.0."..tostring(os.getComputerID())
-    if cfg.net.customIP then
-        if type(cfg.net.customIP == "string") then
-            net.ip = cfg.net.customIP
-        end
     end
     modem.open(cfg.net.channel or 2048)
     function _G.net.send(ip,msg)
