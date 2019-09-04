@@ -1,5 +1,9 @@
 # Redhack
-Advanced computercraft terminal environment
+Please note that all "hacking" in this project takes place<br>
+inside of isolated in-game computers that do not effect actual systems<br>
+<br>
+Redhack is an advanced computercraft terminal environment with<br>
+unique hacknet style networks.<br>
 
 # Install
 Redhack can be installed on any computer with
