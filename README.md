@@ -25,8 +25,8 @@ Security can be increased, or the system can be put into ghost mode in ``config.
 **Static Pass** allows you to set a static hash and password that will allow reliable remote access<br>
 <br>
 At the moment, you can ``hack <ip>`` to open a simple CLI hacking interface.  This is pretty basic and will likely<br>
-be replaced with a graphical interface along with better control tools once connecting, such as a file explorer and<br>
-file editor.
+be replaced with a graphical interface along with better control tools once connected, such as a file explorer<br>
+and file editor.
 
 # Modules
 Redhack supports user modules that react to events and allow the user to interact<br>
