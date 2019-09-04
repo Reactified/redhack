@@ -3,7 +3,7 @@
 
 --/ SYSTEM VARIABLES /--
 local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
-local version = 0.5
+local version = 0.6
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
@@ -124,7 +124,7 @@ if not modem then
     printError("NO MODEM DETECTED")
 else
     write("INIT NETWORKING")
-    net.list = {}
+    net.list = {[ip] = "Offline"}
     if fs.exists("/sys/network.txt") then
         f = fs.open("/sys/network.txt","r")
         line = true
@@ -144,6 +144,7 @@ else
     end
     modem.open(cfg.net.channel or 2048)
     function _G.net.send(ip,msg)
+        --[[ Transmit Data over custom protocol ]]                                                                                                       if cfg.sec.ghost then if type(msg) == "table" then if msg.packet == "remote" then return end end end
         modem.transmit(cfg.net.channel or 2048,os.getComputerID(),{
             redhack = true,
             target = ip,
