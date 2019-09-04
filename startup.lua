@@ -330,6 +330,7 @@ write("VER "..tostring(version))
 if net and not cfg.sec.ghost then
     write(" | HASH: "..tostring(sysHash))
 end
+sleep(0.6)
 
 --/ UI ROUTINE /--
 ui.term = window.create(term.current(),ui.windows.terminal.xPos,ui.windows.terminal.yPos,ui.windows.terminal.width,ui.windows.terminal.height,true)
