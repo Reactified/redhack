@@ -89,10 +89,11 @@ local sysHash = cfg.sec.pass or tostring(math.random(1,99999))
 if sha256 then
     sysHash = string.sub(sha256.sha256(sysHash),1,cfg.sec.level)
     function _G.net.verifyHash(pass,hash)
+        local solveHash
         if hash then
-            local solveHash = string.sub(sha256.sha256(pass),1,#hash)
+            solveHash = string.sub(sha256.sha256(pass),1,#hash)
         else
-            local solveHash = string.sub(sha256.sha256(pass),1,cfg.sec.level)
+            solveHash = string.sub(sha256.sha256(pass),1,cfg.sec.level)
         end
         if solveHash == (hash or sysHash) then
             return true,solveHash
