@@ -3,7 +3,7 @@
 
 --/ SYSTEM VARIABLES /--
 local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
-local version = 0.61
+local version = 0.62
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
@@ -324,12 +324,12 @@ else
     printError("RESTORE VALID X-SERVER TO CONTINUE")
     return
 end
+print("SYSTEM OK")
 sleep(0.1)
-write("FINALIZING")
-sleep(0.1)
-write(".")
-sleep(0.1)
-write(".")
+write("VER "..tostring(version))
+if net and not cfg.sec.ghost then
+    write(" | HASH: "..tostring(sysHash))
+end
 
 --/ UI ROUTINE /--
 ui.term = window.create(term.current(),ui.windows.terminal.xPos,ui.windows.terminal.yPos,ui.windows.terminal.width,ui.windows.terminal.height,true)
