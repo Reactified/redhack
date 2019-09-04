@@ -134,12 +134,13 @@ end
 print("Interactive Remote Lua")
 term.setTextColor(normal)
 print("'dc' to disconnect")
+print("'return <cmd>' for output")
 while true do
     term.setTextColor(fancy)
     write("> ")
     term.setTextColor(normal)
-    local input = "return "..read()
-    if input == "return dc" then
+    local input = read()
+    if input == "dc" then
         print("Disconnected")
         return
     end
