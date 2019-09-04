@@ -23,6 +23,10 @@ Security can be increased, or the system can be put into ghost mode in ``config.
 **Ghost Mode** protects a system from being hacked, but other systems will block attempts from you.<br>
 **Security Level** the number of characters required to solve the security hash and gain control<br>
 **Static Pass** allows you to set a static hash and password that will allow reliable remote access<br>
+<br>
+At the moment, you can ``hack <ip>`` to open a simple CLI hacking interface.  This is pretty basic and will likely<br>
+be replaced with a graphical interface along with better control tools once connecting, such as a file explorer and<br>
+file editor.
 
 # Modules
 Redhack supports user modules that react to events and allow the user to interact<br>
