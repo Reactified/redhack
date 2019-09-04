@@ -21,7 +21,7 @@ if h then
     local newVer = tonumber(h.readAll())
     h.close()
     if newVer then
-        if newVer > verison then
+        if newVer > version then
             printError("SYSTEM UPDATE REQUIRED")
             print("SYSTEM WILL NOW UPDATE")
             print("CURRENT VERSION WILL BE")
