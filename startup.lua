@@ -3,7 +3,7 @@
 
 --/ SYSTEM VARIABLES /--
 local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
-local version = 0.6
+local version = 0.61
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
