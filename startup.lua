@@ -3,7 +3,7 @@
 
 --/ SYSTEM VARIABLES /--
 local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
-local version = 0.65
+local version = 0.66
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
@@ -79,6 +79,9 @@ else
     printError("SYSTEM WILL RUN IN GHOST MODE")
     cfg.sec.ghost = true
     sleep(2)
+end
+if not cfg.sec then
+    cfg.sec = {level = 2,ghost = false,pass = false}
 end
 if cfg.sec.level < 1 then
     cfg.sec.level = 1
