@@ -3,8 +3,7 @@
 --  Adaptation of the Secure Hashing Algorithm (SHA-244/256)
 --  Found Here: http://lua-users.org/wiki/SecureHashAlgorithm
 --  
---  Using an adapted version of the bit library
---  Found Here: https://bitbucket.org/Boolsheet/bslf/src/1ee664885805/bit.lua
+--  Modified for use with Redhack OS
 --  
 
 local MOD = 2^32
@@ -183,7 +182,7 @@ local function digestblock(msg, i, H)
 	H[8] = band(H[8] + h)
 end
 
-local function sha256(msg)
+function sha256(msg)
 	msg = preproc(msg, #msg)
 	local H = initH256({})
 	for i = 1, #msg, 64 do digestblock(msg, i, H) end
