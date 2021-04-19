@@ -479,10 +479,6 @@ function uiRoutine()
         elseif e == "char" then
             termInput = termInput..c
         elseif e == "key" then
-            ui.term.clear()
-            ui.term.setCursorPos(1,1)
-            ui.term.write(c)
-            sleep(1)
             if c == 14 or c == 259 then
                 termInput = string.sub(termInput,1,#termInput-1)
             elseif c == 28 or c == 257 then
