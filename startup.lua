@@ -3,7 +3,7 @@
 
 --/ SYSTEM VARIABLES /--
 local repo = "https://raw.githubusercontent.com/Reactified/redhack/master/"
-local version = 0.68
+local version = 0.69
 local isColor = term.isColor()
 local w,h = term.getSize()
 local modem = nil
@@ -367,6 +367,8 @@ local termDirectory = shell.dir()
 local termPrefix = termDirectory.."> "
 local termInput = ""
 local termOffset = 0
+local termHistory = {}
+local termHistoryScroll = 0
 function termWrite(str)
     ui.term.scroll(1)
     ui.term.setTextColor(ui.theme.txtMain)
@@ -427,7 +429,7 @@ function uiRoutine()
         ui.term.scroll(1)
     end
     ui.netmap.setCursorPos(netmapX,1)
-    ui.netmap.setBackgroundColor(ui.theme.raisedBg)
+    ui.netmap.setBackgroundColor(ui.theme.bgMain)
     ui.netmap.setTextColor(ui.theme.raisedTxt)
     ui.netmap.write("^")
     for i=2,netmapY-1 do
@@ -479,9 +481,11 @@ function uiRoutine()
         elseif e == "char" then
             termInput = termInput..c
         elseif e == "key" then
-            if c == 14 or c == 259 then
+            if c == keys.backspace then
                 termInput = string.sub(termInput,1,#termInput-1)
-            elseif c == 28 or c == 257 then
+            elseif c == keys.enter then
+                termHistory[#termHistory+1] = termInput
+                termHistoryScroll = -1
                 ui.term.setCursorBlink(false)
                 ui.term.scroll(2)
                 local native = term.current()
@@ -509,6 +513,21 @@ function uiRoutine()
                 end
                 term.redirect(native)
                 termInput = ""
+            elseif c == keys.up then
+                termHistoryScroll = termHistoryScroll + 1
+                if #termHistory-termHistoryScroll > 0 then
+                    termInput = termHistory[#termHistory-termHistoryScroll]
+                else
+                    termHistoryScroll = termHistoryScroll - 1
+                end
+            elseif c == keys.down then
+                termHistoryScroll = termHistoryScroll - 1
+                if termHistoryScroll < 0 then
+                    termHistoryScroll = -1
+                    termInput = ""
+                else
+                    termInput = termHistory[#termHistory-termHistoryScroll]
+                end
             end
         end
         if e ~= "modem_message" then
