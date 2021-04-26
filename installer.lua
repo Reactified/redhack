@@ -9,6 +9,7 @@ local files = {
     {"config.sys","sys/config.sys"},
     {"edit.lua","bin/edit.lua"},
     {"connect.lua","bin/hack.lua"},
+    {"ssh.lua","bin/ssh.lua"},
     {"sha256.lua","sys/apis/sha256.lua"},
 }
 local folders = {
