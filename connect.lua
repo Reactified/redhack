@@ -129,30 +129,3 @@ else
     printError("Denied.")
     return
 end
-
---[[
-print("Interactive Remote Lua")
-term.setTextColor(normal)
-print("'dc' to disconnect")
-print("'return <cmd>' for output")
-while true do
-    term.setTextColor(fancy)
-    write("> ")
-    term.setTextColor(normal)
-    local input = read()
-    if input == "dc" then
-        print("Disconnected")
-        return
-    end
-    net.send(args[1],{packet = "remote",solve=solve,code=input})
-    local ip,data = net.receive(5,args[1])
-    if not ip then
-        printError("Timed out.")
-    else
-        if data.result then
-            term.setTextColor(fancy)
-            print(data.result)
-        end
-    end
-end
-]]
