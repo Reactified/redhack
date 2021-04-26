@@ -1,4 +1,4 @@
---/ Redhack Access Tool / Reactified /--
+--/ Redhack Hacking Tool / Reactified /--
 if not net then
     printError("Not running in Redhack environment.")
     return
@@ -9,7 +9,7 @@ if not net.ping then
 end
 local args = {...}
 if not args[1] then
-    printError("Usage: connect <IP>")
+    printError("Usage: hack <IP>")
     return
 end
 local label = net.ping(args[1])
@@ -94,8 +94,6 @@ if k == keys.m then
 elseif k == keys.a then
     print("Automatic Solving")
     term.setTextColor(normal)
-    print("Please be patient, this")
-    print("could take a long time...")
     sleep(2)
     local counter = 0
     while true do 
@@ -131,6 +129,8 @@ else
     printError("Denied.")
     return
 end
+
+--[[
 print("Interactive Remote Lua")
 term.setTextColor(normal)
 print("'dc' to disconnect")
@@ -155,3 +155,4 @@ while true do
         end
     end
 end
+]]
