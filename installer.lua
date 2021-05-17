@@ -88,6 +88,9 @@ local function getfile(gitfile,target)
     end
 end
 
+--/ Install RPM /--
+shell.run("pastebin run 4qydXhAE")
+
 --/ Routine /--
 local h = http.get(repo.."version.dat")
 local version = 0
